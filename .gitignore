@@ -1,0 +1,10 @@
+node_modules/
+dist/
+target/
+.DS_Store
+*.log
+
+# Private reference material: Gerard's own scripts and Fade In files.
+# Never commit these (the repo is public).
+private/
+test-scripts/private/
