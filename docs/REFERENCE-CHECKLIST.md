@@ -18,12 +18,13 @@ Attach them in chat. **Don't upload scripts to the GitHub repo**: it's public, s
 
 Take one script (a copy), ideally 20+ pages, with dialogue crossing page breaks, parentheticals, a transition and dual dialogue if you use it. From Fade In, produce:
 
-- [ ] F1 `sample.fadein` (File > Save As)
-- [ ] F2 `sample.pdf` (File > Create PDF, default settings)
-- [ ] F3 `sample.fdx` (File > Export > Final Draft)
-- [ ] F4 `sample.fountain` (File > Export > Fountain)
-- [ ] F5 `sample.txt` (File > Export > Formatted Text)
-- [ ] F6 A **blank** new screenplay saved as `blank.fadein` (File > New, then save). This shows me the exact default styles and page layout in your version.
+- [x] F1 A 5-page script as .fadein (received 2026-11-26; kept private, not in the repo)
+- [ ] F2 **The same script** as a PDF (File > Create PDF, default settings). This is the most important item now: it's what Midlander's page breaks get compared against.
+- [ ] F3 The same script as .fdx (File > Export > Final Draft)
+- [ ] F4 The same script as .fountain (File > Export > Fountain)
+- [ ] F5 The same script as formatted text (File > Export > Formatted Text)
+- [ ] F6 A **longer** script (20+ pages, ideally with dialogue running across a page break) as .fadein + PDF, whenever convenient
+- [ ] F7 Question: did *you* make scene headings bold and choose Courier New, or are those Fade In's defaults?
 
 If the script is private, that's fine: these files are only used privately in our chats, never committed to the repo. Or ask me for a test script you can paste into Fade In.
 
@@ -31,7 +32,7 @@ If the script is private, that's fine: these files are only used privately in ou
 
 In a new blank script:
 
-- [ ] E2 Type some Action text, then press **Tab at the end of the line**. Does it go to Character, or act like Enter (new Action line)?
+- [x] E2 Tab at the end of Action: settled by your .fadein file (no Tab setting there, so it acts like Enter)
 - [ ] E6 What do **Option+Enter** and **Cmd+Enter** do in the middle of typing? (The manual says Option+Enter = full screen, Cmd+Enter = Scene Heading.)
 - [ ] E7 After typing a character name you've used before, does autocomplete appear after one letter or more?
 

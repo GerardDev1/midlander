@@ -19,16 +19,16 @@ Each style has three "next style" settings: **Enter**, **Tab on an empty line** 
 | Style | Enter → | Tab on empty line → | Tab at end of text → | Caps | Keep with next |
 |---|---|---|---|---|---|
 | Scene Heading | Action | (none) | Action | yes | yes |
-| Action | (Action) | Character | Character ¹ | no | no |
+| Action | (Action) | Character | (none) ¹ | no | no |
 | Character | Dialogue | Action | Parenthetical | yes | yes |
 | Parenthetical | Dialogue | Dialogue | Dialogue | no | yes |
 | Dialogue | Action | Parenthetical | Parenthetical | no | no |
 | Transition | Scene Heading | (none) | Action | yes | no |
 | Shot | Action | (none) | Action | yes | yes |
 
-Values come from the help manual plus the style definitions in a bundled template (saved by Fade In 2.0).
+Values come from a script saved by Gerard's Fade In 4.1.1 and match the help manual.
 
-¹ The help says Tab at the end of a non-empty Action paragraph acts like Enter, but the template sets it to Character. **Confirm with test E2** in the checklist.
+¹ Action has no "tab after" setting in 4.1.1, which fits the help's description: Tab at the end of a non-empty Action paragraph acts like Enter. (An older template from Fade In 2.0 had Character here.)
 
 ### 1.2 Other element behaviours
 
@@ -44,23 +44,32 @@ Values come from the help manual plus the style definitions in a bundled templat
 - **Dual dialogue**: applied to the selected character + dialogue and the immediately following character + dialogue.
 - **Quick Reformat**: a dialog for quickly reformatting all or part of a document. On Mac it uses number keys, needing "keyboard navigation of all controls" enabled.
 
-## 2. Page layout (defaults from the bundled template)
+## 2. Page layout (Fade In 4.1.1 screenplay)
 
-Fade In stores lengths in **tenths of a millimetre**.
+Values are from a script saved by Gerard's 4.1.1 (`saved_with="4.1.1.1038"`). Fade In stores lengths in **tenths of a millimetre**. Indents are measured from the page margins.
 
-| Setting | Stored | = |
-|---|---|---|
-| Page | 2159 × 2794 | US Letter, 8.5" × 11" |
-| Margin top | 317 | 1.25" |
-| Margin bottom | 220 | ~0.87" |
-| Margin left / right | 317 / 317 | 1.25" / 1.25" (KB confirms this is the default) |
-| Lines per inch | 6.0 | — |
-| Character left indent | 685 | 2.70" from the left margin |
-| Parenthetical indent L / R | 558 / 508 | 2.20" / 2.00" |
-| Dialogue indent L / R | 381 / 254 | 1.50" / 1.00" (so 3.5" wide) |
-| Transition | right-aligned | — |
+| Setting | Stored | = | Older 2.0 template |
+|---|---|---|---|
+| Page | 2159 × 2794 | US Letter, 8.5" × 11" | same |
+| Margin top / bottom | 266 / 228 | 1.05" / 0.90" | 1.25" / 0.87" |
+| Margin left / right | 317 / 317 | 1.25" / 1.25" | same |
+| Text width | — | 6.0" = 60 characters of Courier 12 | same |
+| Lines per inch | 6.0 | — | same |
+| Character left indent | 635 | 2.50" (text starts 3.75" from page edge) | 2.70" |
+| Parenthetical indent L / R | 508 / 508 | 2.00" / 2.00" → 2.0" wide (20 chars) | 2.20" / 2.00" |
+| Dialogue indent L / R | 330 / 254 | 1.30" / 1.00" → 3.7" wide (37 chars) | 1.50" / 1.00" |
+| Transition indent L / R | 1016 / 127 | 4.00" / 0.50", right-aligned | right-aligned only |
+| Space before | — | Scene Heading 2 lines; Action, Character, Transition, Shot 1; Parenthetical, Dialogue 0 | same |
+| Break dialogue on sentences | `true` | — | `false` |
+| Header | `#.` right-aligned, not on page 1 | — | same |
 
-The built-in Screenplay template in 4.1.1 may differ slightly. **The sample .fadein file (checklist F1) will confirm the real defaults.**
+In Gerard's file, the Scene Heading is **bold** and the font is **Courier New**. Those may be his own settings rather than Fade In's defaults (to confirm).
+
+### 2.0 How text is stored
+
+- Text is stored **as typed**: `int. Bathroom cubicle - morning`. Capitals are applied when displayed. Midlander does the same.
+- Character extensions are part of the Character paragraph's text: `carol (O.S.)`.
+- Locations are stored without the intro and the final time, but keep other parts: `car - outside parents house`.
 
 Other page settings stored in the file:
 - break dialogue on sentences;
@@ -210,6 +219,18 @@ A separate, editable sub-document. Paragraphs can carry bookmarks: Title, Subtit
   - `lists` (characters, locations, scene_intros, scene_times, extensions, transitions, revision_colors, tag_categories).
 
   Templates are the same format with `is_template="true"`.
+
+  **Format versions differ.** Files from 4.1.1 are `version="41"` and use `basestyle="…"`. The 2.0-era templates are `version="20"` and use `basestylename="…"`. The reader must accept both.
+
+  Version 41 also has `info/@draft_uuid`, `a_pages`, `ab_pages`, `spelling/ignored`, `lists/highlight_rules`, and extra settings (`number_continued`, `document_revision`, `revision_mode`, `show_revisions="all"`, `selected_revisions`). The `fadein_settings` section records the saving app version and OS, the last cursor position, and Navigator / index-card view options.
+
+- **Default lists in a new 4.1.1 script** (standard industry terms; Midlander ships equivalent defaults):
+  - Scene intros: INT., EXT., INT./EXT.
+  - Scene times: DAY, NIGHT, MORNING, AFTERNOON, EVENING, LATER, MOMENTS LATER, CONTINUOUS, THE NEXT DAY.
+  - Extensions: (V.O.), (O.S.), (O.C.), (SUBTITLE).
+  - Transitions: CUT TO:, FADE IN:, FADE OUT, FADE TO:, DISSOLVE TO:, BACK TO:, MATCH CUT TO:, JUMP CUT TO:, FADE TO BLACK.
+  - Revision colours: White plus the nine standard colours, each marked `*`.
+  - Tag categories: Cast, Background Actors, Stunts, Vehicles, Props, Camera, Special Effects, Wardrobe, Makeup/Hair, Animals, Animal Handler, Music (each with a colour).
 - **Open:** .fadein only. Everything else goes through **Import**:
   - Adobe Story, Celtx, Final Draft (.fdx, .fdr), formatted text, Fountain, Highland, HTML, RTF, screenplay PDF, Scrivener, unformatted text, OSF .xml;
   - Word .docx (per the KB).
@@ -256,7 +277,6 @@ A separate, editable sub-document. Paragraphs can carry bookmarks: Title, Subtit
 ## 11. Still unknown (needs screenshots or tests)
 
 - Exact visual layout: toolbar buttons, panel sizes, status bar (if any), and the Start Page.
-- Element flow detail: footnote ¹ above, plus Shift/Option+Enter behaviour.
-- The 4.1.1 built-in **Screenplay** template's exact indents and spacing (from the sample file).
+- Whether bold scene headings and Courier New are Fade In's 4.1.1 defaults or Gerard's own settings.
 - Exact page-break thresholds: minimum lines kept together, sentence breaking (from sample PDF comparison).
 - Contents of the Preferences dialogs, Page Layout, Header/Footer and Reports dialogs.

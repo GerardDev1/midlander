@@ -305,7 +305,7 @@ Print works like Fade In's:
 
 | Format | Difficulty | Notes |
 |---|---|---|
-| **.fadein** | Medium | Confirmed: a **zip containing `document.xml`** in Open Screenplay Format. Lengths are in tenths of a millimetre; styles carry `basestylename`, `style_enter`, `style_tab_before`, `style_tab_after`, indents, spacing and caps; paragraphs carry a style and text runs. We write our own reader/writer, tested against files Gerard exports, and handle several format versions (version 20 in the bundled templates; a third-party example shows 40; your 4.1.1 sample will confirm) |
+| **.fadein** | Medium | Confirmed: a **zip containing `document.xml`** in Open Screenplay Format. Lengths are in tenths of a millimetre; styles carry `basestylename`, `style_enter`, `style_tab_before`, `style_tab_after`, indents, spacing and caps; paragraphs carry a style and text runs. We write our own reader/writer, tested against files Gerard exports, and handle both format versions seen so far: 41 (Fade In 4.1.1, `basestyle`) and 20 (older templates, `basestylename`) |
 | Fountain | Low | Public open spec (fountain.io). Round-trips notes, synopses and sections |
 | FDX | Medium | XML; widely implemented. Paragraph types, title page, revisions, dual dialogue, scene numbers |
 | Plain text / HTML | Low | — |
