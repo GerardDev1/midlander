@@ -137,3 +137,15 @@ export const DEFAULT_LISTS: DocumentLists = {
   extensions: ['(V.O.)', '(O.S.)', '(O.C.)', '(SUBTITLE)'],
   transitions: ['CUT TO:', 'FADE IN:', 'FADE OUT', 'FADE TO:', 'DISSOLVE TO:', 'BACK TO:', 'MATCH CUT TO:', 'JUMP CUT TO:', 'FADE TO BLACK'],
 };
+
+/** A fresh copy of the default lists. (Plain copying: structuredClone needs Safari 15.4, newer than early macOS 12.) */
+export function defaultLists(): DocumentLists {
+  return {
+    characters: [],
+    locations: [],
+    sceneIntros: [...DEFAULT_LISTS.sceneIntros],
+    sceneTimes: [...DEFAULT_LISTS.sceneTimes],
+    extensions: [...DEFAULT_LISTS.extensions],
+    transitions: [...DEFAULT_LISTS.transitions],
+  };
+}

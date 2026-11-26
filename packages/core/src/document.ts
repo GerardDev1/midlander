@@ -1,4 +1,4 @@
-import { DEFAULT_LISTS, DEFAULT_SETTINGS, DEFAULT_STYLES } from './defaults.ts';
+import { DEFAULT_SETTINGS, DEFAULT_STYLES, defaultLists } from './defaults.ts';
 import type { Block, Run, ScreenplayDocument, StyleName } from './types.ts';
 
 let counter = 0;
@@ -28,7 +28,7 @@ export function createDocument(blocks: Block[] = [block('Scene Heading')]): Scre
     styles: DEFAULT_STYLES.map((s) => ({ ...s })),
     blocks,
     titlePage: [],
-    lists: structuredClone(DEFAULT_LISTS),
+    lists: defaultLists(),
   };
 }
 

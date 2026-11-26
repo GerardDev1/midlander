@@ -61,3 +61,32 @@ test('zoom steps', () => {
   assert.equal(nextZoom(3, 1), 3);
   assert.equal(nextZoom(0.5, -1), 0.5);
 });
+
+test('caret geometry: columns come from the layout, parenthetical brackets are skipped, clicks map back to text', async () => {
+  const { caretPlace, hitTest, verticalMove, lineEdge, selectionRects } = await import('../src/pageModel.ts');
+  const doc = createDocument([
+    block('Scene Heading', 'int. hall - day'),
+    block('Character', 'ann'),
+    block('Parenthetical', 'quietly'),
+    block('Dialogue', 'It is still turning. Nobody has climbed up here in years.'),
+  ]);
+  const m = buildRenderModel(doc);
+  // The dialogue's second line starts at "climbed" (offset 32); offset 33 is one column in.
+  const second = m.editLines[m.linesOfBlock[3][1]];
+  assert.equal(second.start, 32);
+  const c = caretPlace(m, doc, { block: 3, offset: 33 })!;
+  assert.equal(c.col, second.col + 1);
+  assert.ok(Math.abs(c.left - (m.marginLeft + (second.col + 1) / 10)) < 1e-9);
+  // In "(quietly)" offset 0 sits after the opening bracket.
+  const p = caretPlace(m, doc, { block: 2, offset: 0 })!;
+  const paren = m.editLines[m.linesOfBlock[2][0]];
+  assert.equal(p.col, paren.col + 1);
+  // Clicking on that line, left of the bracket, lands at the start of the stored text.
+  assert.deepEqual(hitTest(m, 0, m.marginLeft + paren.col / 10, p.top + 0.01), { block: 2, offset: 0 });
+  // Up from the second dialogue line keeps the column.
+  const up = verticalMove(m, doc, { block: 3, offset: 33 + 5 }, -1, null)!;
+  assert.deepEqual(up.pos, { block: 3, offset: 6 });
+  assert.deepEqual(lineEdge(m, doc, { block: 3, offset: 5 }, 1), { block: 3, offset: 31 });
+  // A selection across two lines gives one rectangle per line.
+  assert.equal(selectionRects(m, { anchor: { block: 3, offset: 2 }, head: { block: 3, offset: 40 } }).length, 2);
+});

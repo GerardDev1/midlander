@@ -15,12 +15,14 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Unit tests (core, formats, layout, app)
+      - name: Unit tests (core, formats, layout, editor, app)
         run: npm test
       - name: Type check
         run: npm run typecheck
       - name: Build the app's web interface
         run: npm run app:build
+      - name: Editor tests in Google Chrome (Mac and Windows key bindings)
+        run: npm run test:e2e
 
       - name: Linux libraries for the desktop shell
         run: |

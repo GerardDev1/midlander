@@ -7,6 +7,7 @@ import {
   DEFAULT_LISTS,
   DEFAULT_SETTINGS,
   DEFAULT_STYLES,
+  defaultLists,
   newBlockId,
   newUuid,
   type Alignment,
@@ -182,7 +183,7 @@ function readPara(p: XmlElement): Block {
 }
 
 function readLists(el: XmlElement | undefined): DocumentLists {
-  if (!el) return structuredClone(DEFAULT_LISTS);
+  if (!el) return defaultLists();
   const names = (tag: string, item: string, fallback: string[]): string[] => {
     const group = child(el, tag);
     if (!group) return [...fallback];

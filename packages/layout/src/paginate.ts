@@ -13,6 +13,7 @@
 import {
   StyleSheet,
   blockText,
+  styleSheetFor,
   characterBaseName,
   type Block,
   type ResolvedStyle,
@@ -109,7 +110,7 @@ const DIALOGUE_PARTS = new Set(['Parenthetical', 'Dialogue']);
 
 export function layoutDocument(doc: ScreenplayDocument, opts: Partial<LayoutOptions> = {}): Layout {
   const o = { ...DEFAULT_LAYOUT_OPTIONS, ...opts };
-  const sheet = new StyleSheet(doc.styles);
+  const sheet = styleSheetFor(doc.styles);
   const s = doc.settings;
   const size = sheet.resolve('Normal Text').size || 12;
   const g: Geometry = {
@@ -156,11 +157,67 @@ function geometryFor(style: ResolvedStyle, g: Geometry) {
   return { indentCols, widthCols };
 }
 
-function displayText(b: Block, style: ResolvedStyle): string {
+/**
+ * A paragraph's text as printed, and how offsets in the stored text map to
+ * it. Printing applies capitals (stored text keeps what was typed) and adds
+ * brackets around parentheticals (stored without them, as Fade In does).
+ */
+export interface DisplayMap {
+  text: string;
+  /** Stored-text offset → printed-text offset. */
+  toDisplay(offset: number): number;
+  /** Printed-text offset → stored-text offset. */
+  toStored(offset: number): number;
+}
+
+const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
+
+export function displayMap(b: Block, style: ResolvedStyle): DisplayMap {
   let t = blockText(b);
-  if (style.allCaps) t = t.toUpperCase();
-  if (b.style === 'Parenthetical' && t.trim() !== '' && !t.trimStart().startsWith('(')) t = `(${t.trim()})`;
-  return t;
+  const len = t.length;
+  // Upper-case letter by letter so offsets never shift (e.g. "ß" stays one character).
+  if (style.allCaps) t = Array.from(t, (c) => (c.toUpperCase().length === c.length ? c.toUpperCase() : c)).join('');
+  if (b.style === 'Parenthetical' && t.trim() !== '' && !t.trimStart().startsWith('(')) {
+    const lead = t.length - t.trimStart().length;
+    const inner = t.trim().length;
+    return {
+      text: `(${t.trim()})`,
+      toDisplay: (o) => clamp(o - lead, 0, inner) + 1,
+      toStored: (d) => clamp(d - 1, 0, inner) + lead,
+    };
+  }
+  return { text: t, toDisplay: (o) => clamp(o, 0, len), toStored: (d) => clamp(d, 0, len) };
+}
+
+function displayText(b: Block, style: ResolvedStyle): string {
+  return displayMap(b, style).text;
+}
+
+/**
+ * Wrapping every paragraph on every keystroke is most of the work of laying
+ * out a long script. Paragraphs are never changed in place (an edit replaces
+ * the paragraph object), so a paragraph's wrapped lines are kept with it and
+ * reused until its text, style or width changes.
+ */
+interface CachedPiece {
+  style: ResolvedStyle;
+  suffix: string;
+  width: number;
+  display: string;
+  lines: LineRange[];
+}
+const pieceCache = new WeakMap<Block, CachedPiece>();
+
+function blockPiece(blockIndex: number, b: Block, style: ResolvedStyle, g: Geometry, suffix = ''): Piece {
+  const { indentCols, widthCols } = geometryFor(style, g);
+  const c = pieceCache.get(b);
+  if (c && c.style === style && c.suffix === suffix && c.width === widthCols) {
+    return { blockIndex, style, display: c.display, from: 0, to: c.display.length, lines: c.lines, indentCols, widthCols };
+  }
+  const display = displayText(b, style) + suffix;
+  const piece = makePiece(blockIndex, style, display, g);
+  pieceCache.set(b, { style, suffix, width: widthCols, display, lines: piece.lines });
+  return piece;
 }
 
 function makePiece(blockIndex: number, style: ResolvedStyle, display: string, g: Geometry, from = 0, to = display.length): Piece {
@@ -180,18 +237,17 @@ function buildUnits(doc: ScreenplayDocument, sheet: StyleSheet, g: Geometry): Un
     if (b.style === 'Scene Heading' || st.actBreak) lastSpeaker = null;
 
     if (b.style === 'Character') {
-      let cue = displayText(b, st);
+      const base = displayText(b, st);
       const speaker = characterBaseName(blockText(b));
       const cont = doc.settings.contText;
-      if (doc.settings.dialogueContinues && cont && speaker && speaker === lastSpeaker && !cue.includes(cont)) {
-        cue = `${cue} ${cont}`;
-      }
+      const suffix = doc.settings.dialogueContinues && cont && speaker && speaker === lastSpeaker && !base.includes(cont) ? ` ${cont}` : '';
       lastSpeaker = speaker || lastSpeaker;
-      const pieces = [makePiece(i, st, cue, g)];
+      const pieces = [blockPiece(i, b, st, g, suffix)];
+      const cue = pieces[0].display;
       while (i + 1 < blocks.length && DIALOGUE_PARTS.has(blocks[i + 1].style)) {
         i++;
         const bs = sheet.forBlock(blocks[i]);
-        pieces.push(makePiece(i, bs, displayText(blocks[i], bs), g));
+        pieces.push(blockPiece(i, blocks[i], bs, g));
       }
       units.push({
         kind: 'dialogue',
@@ -206,7 +262,7 @@ function buildUnits(doc: ScreenplayDocument, sheet: StyleSheet, g: Geometry): Un
     }
     units.push({
       kind: 'block',
-      pieces: [makePiece(i, st, displayText(b, st), g)],
+      pieces: [blockPiece(i, b, st, g)],
       spaceBefore: sp(st),
       keepWithNext: st.keepWithNext,
       pageBreakBefore: st.pageBreakBefore,

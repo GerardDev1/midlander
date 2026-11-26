@@ -63,3 +63,46 @@ button.primary:focus-visible { outline: 3px solid rgba(47, 93, 80, 0.4); outline
   background: var(--bar); border-top: 1px solid var(--line); color: var(--muted); font-size: 12px;
   font-variant-numeric: tabular-nums;
 }
+
+/* Editing */
+.page { cursor: text; }
+.page.title-page { cursor: default; }
+.sel { position: absolute; background: rgba(47, 120, 200, 0.28); pointer-events: none; }
+.sel.inactive { background: rgba(0, 0, 0, 0.12); }
+.caret {
+  position: absolute; width: 2px; background: #1a1a1a; pointer-events: none;
+  animation: blink 1.06s steps(1) 0.5s infinite;
+}
+.caret.hidden { visibility: hidden; animation: none; }
+@keyframes blink { 50% { visibility: hidden; } }
+.line.ghost { color: #9a9a9a; pointer-events: none; font-family: "Courier New", "Courier Prime", Courier, monospace; }
+
+/* The hidden field that receives typing; it sits at the caret for input methods. */
+.input-sink {
+  position: fixed; width: 1px; height: 1em; padding: 0; border: 0; margin: 0; outline: none;
+  opacity: 0; resize: none; overflow: hidden; white-space: pre; z-index: -1; pointer-events: none;
+  caret-color: transparent; color: transparent; background: transparent;
+}
+
+.autocomplete {
+  position: fixed; z-index: 20; margin: 0; padding: 4px 0; list-style: none; min-width: 180px; max-height: 240px; overflow-y: auto;
+  background: var(--bar); color: var(--ink); border: 1px solid var(--line); border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18); font-family: "Courier New", "Courier Prime", Courier, monospace; font-size: 13px;
+}
+.autocomplete li { padding: 3px 12px; cursor: default; white-space: pre; }
+.autocomplete li.selected { background: var(--accent); color: #fff; }
+
+.start .actions { display: flex; gap: 10px; }
+button.secondary {
+  font: inherit; font-size: 14px; padding: 7px 18px; border-radius: 6px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--bar); color: var(--ink);
+}
+button.secondary:focus-visible { outline: 3px solid rgba(47, 93, 80, 0.4); outline-offset: 2px; }
+
+.modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.25); display: flex; align-items: flex-start; justify-content: center; padding-top: 80px; z-index: 50; }
+.modal { width: 420px; max-width: calc(100% - 32px); background: var(--bar); color: var(--ink); border-radius: 10px; padding: 18px 20px 16px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3); }
+.modal-title { font-weight: 600; font-size: 14px; margin: 0 0 6px; }
+.modal-body { margin: 0 0 16px; color: var(--muted); }
+.modal-buttons { display: flex; gap: 8px; align-items: center; }
+.modal-buttons .spacer { flex: 1; }
+.modal-buttons button { font-size: 13px; padding: 5px 14px; }

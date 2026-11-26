@@ -264,6 +264,8 @@ Document
 
 ### 5.2 Editor
 
+> **Changed in Phase 3:** Midlander uses its own editor drawn directly from its layout engine instead of ProseMirror, so the page you type on is always the printed page. See `decisions/0003-editor.md`.
+
 **ProseMirror** (MIT licence) with a custom screenplay schema: one node type per element style. It already provides cursor, selection, IME input, history, clipboard and accessibility.
 
 - Element flow, autocomplete, auto-detection, smart caps and shortcuts are ProseMirror **keymaps and plugins** that read the style table. That makes them configurable, as in Fade In.

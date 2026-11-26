@@ -2,7 +2,7 @@
 
 A professional desktop screenwriting application for macOS and Windows, designed to feel instantly familiar to writers who know Fade In.
 
-**Status:** Phase 2. The core engine (document model, .fadein import, page layout) is verified against Fade In's output. The first desktop app opens .fadein scripts read-only and shows them page by page. Writing and editing come in Phase 3.
+**Status:** Phase 3. You can write a screenplay the Fade In way (elements, Enter/Tab flow, Fade In's shortcuts, autocomplete, live pagination with (MORE) and (cont'd), undo) and save it as a Midlander script. Fade In scripts open for editing and are never overwritten. Panels, Find and the Navigator come in Phase 4.
 
 ## Trying the app
 
@@ -24,6 +24,7 @@ Requires Node.js 22.18 or later. No installs are needed to run the tests:
 ```sh
 npm test            # unit tests
 npm run typecheck   # needs typescript + @types/node (npm install)
+npm run test:e2e    # editor tests in Google Chrome, with Mac and Windows key bindings (npm install first)
 ```
 
 Compare Midlander's layout of a .fadein script with a PDF exported from Fade In:
@@ -36,7 +37,8 @@ node tools/compare-layout.ts script.fadein script.lines.json --verbose
 | Package | Contents |
 |---|---|
 | `packages/core` | Screenplay document model (no UI dependency) |
-| `packages/formats` | .fadein import; zip/XML utilities; more formats to come |
+| `packages/formats` | .fadein import, .midlander save/open; zip/XML utilities; more formats to come |
+| `packages/editor` | Editing: typing, element flow, undo, clipboard, auto-detect, autocomplete (no UI dependency) |
 | `packages/layout` | Pagination engine: pages of positioned lines, shared by editor, PDF and print |
 | `app` | Desktop app: React page view (`app/src`) and Tauri shell with native menus (`app/src-tauri`) |
 

@@ -16,7 +16,8 @@
     "typecheck": "tsc -p tsconfig.json",
     "compare": "node tools/compare-layout.ts",
     "app:dev": "npm run dev -w @midlander/app",
-    "app:build": "npm run build -w @midlander/app"
+    "app:build": "npm run build -w @midlander/app",
+    "test:e2e": "node --test --test-concurrency=1 \"app/e2e/*.e2e.ts\""
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
