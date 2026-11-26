@@ -113,3 +113,14 @@ test('fadein: private Fade In 4.1.1 samples parse', { skip: !priv || !existsSync
     assert.equal((doc.extra?.fadein as { osfVersion: number }).osfVersion, 41);
   }
 });
+
+test('.midlander round trip keeps paragraphs, formatting, styles and lists', async () => {
+  const { createDocument, block } = await import('../../core/src/index.ts');
+  const { writeMidlander, readMidlander, parseMidlanderJson } = await import('../src/index.ts');
+  const doc = createDocument([block('Scene Heading', 'int. shed - night'), block('Action', [{ text: 'A ' }, { text: 'loud', bold: true }, { text: ' bang.' }])]);
+  doc.lists.characters.push({ name: 'MARA', gender: 'F' });
+  const back = await readMidlander(await writeMidlander(doc));
+  assert.deepEqual(back, doc);
+  assert.throws(() => parseMidlanderJson('{"format":"other"}'), /isn't a Midlander script/);
+  assert.throws(() => parseMidlanderJson('{"format":"midlander","formatVersion":99,"document":{"blocks":[]}}'), /newer version/);
+});

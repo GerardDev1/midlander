@@ -4,18 +4,18 @@
 
 On Windows/Linux, Midlander follows Fade In's Windows column (mostly Ctrl in place of Cmd, Alt in place of Option). Only the Mac column is listed here.
 
-Status: ⬜ planned · 🟡 partly implemented · ✅ implemented. The read-only app shell (Phase 2) has the first few; the rest arrive with the editor.
+Status: ⬜ planned · 🟡 partly implemented · ✅ implemented (Phase 3: the editor).
 
 ## Files
 
 | Command | Mac | Status |
 |---|---|---|
-| New document | Cmd+N | ⬜ |
+| New document | Cmd+N | ✅ |
 | New from template | Shift+Cmd+N | ⬜ |
 | Open | Cmd+O | ✅ |
 | Close document | Cmd+W | ✅ |
-| Save | Cmd+S | ⬜ |
-| Save As | Shift+Cmd+S | ⬜ |
+| Save | Cmd+S | ✅ |
+| Save As | Shift+Cmd+S | ✅ |
 | Save All | Option+Cmd+S | ⬜ |
 | Print | Cmd+P | ⬜ |
 | This Session (session statistics) | Shift+Cmd+I | ⬜ |
@@ -25,9 +25,9 @@ Status: ⬜ planned · 🟡 partly implemented · ✅ implemented. The read-only
 
 | Command | Mac | Status |
 |---|---|---|
-| Undo | Cmd+Z | ⬜ |
-| Redo | Cmd+Y, or Shift+Cmd+Z | ⬜ |
-| Cut / Copy / Paste | Cmd+X / Cmd+C / Cmd+V | 🟡 Copy only (page view is read-only) |
+| Undo | Cmd+Z | ✅ |
+| Redo | Cmd+Y, or Shift+Cmd+Z | ✅ |
+| Cut / Copy / Paste | Cmd+X / Cmd+C / Cmd+V | ✅ |
 | Copy as Fountain (if enabled) | Shift+Cmd+C | ⬜ |
 | Paste as Fountain (if enabled) | Shift+Cmd+V | ⬜ |
 | Paste Unformatted | Shift+Option+Cmd+V | ⬜ |
@@ -65,14 +65,14 @@ Status: ⬜ planned · 🟡 partly implemented · ✅ implemented. The read-only
 
 | Command | Mac | Status |
 |---|---|---|
-| Scene Heading | Cmd+1, or Cmd+Enter | ⬜ |
-| Action | Cmd+2 | ⬜ |
-| Character | Cmd+3 | ⬜ |
-| Parenthetical | Cmd+4 | ⬜ |
-| Dialogue | Cmd+5 | ⬜ |
-| Transition | Cmd+6 | ⬜ |
-| Shot | Cmd+7 | ⬜ |
-| Unformatted Text | Cmd+0 | ⬜ |
+| Scene Heading | Cmd+1, or Cmd+Enter | ✅ |
+| Action | Cmd+2 | ✅ |
+| Character | Cmd+3 | ✅ |
+| Parenthetical | Cmd+4 | ✅ |
+| Dialogue | Cmd+5 | ✅ |
+| Transition | Cmd+6 | ✅ |
+| Shot | Cmd+7 | ✅ |
+| Unformatted Text | Cmd+0 | ✅ |
 | Reformat element as above | Option+Cmd+0 to 7 | ⬜ |
 | Custom element 1–8 | Ctrl+Cmd+1 to 8 | ⬜ |
 | Reformat as custom element 1–8 | Ctrl+Option+Cmd+1 to 8 | ⬜ |
@@ -80,7 +80,7 @@ Status: ⬜ planned · 🟡 partly implemented · ✅ implemented. The read-only
 | Modify Element Style | Option+Cmd+E | ⬜ |
 | Apply Element (list) | Shift+Cmd+E | ⬜ |
 | Insert Element (list) | Shift+Cmd+Enter | ⬜ |
-| Bold / Italic / Underline | Cmd+B / Cmd+I / Cmd+U | ⬜ |
+| Bold / Italic / Underline | Cmd+B / Cmd+I / Cmd+U | ✅ |
 | Strikethrough | Shift+Cmd+X | ⬜ |
 | Align left / centre / right | Cmd+L / Cmd+E / Cmd+R | ⬜ |
 | Highlight | Shift+Cmd+H | ⬜ |
@@ -136,12 +136,12 @@ Status: ⬜ planned · 🟡 partly implemented · ✅ implemented. The read-only
 
 | Command | Mac | Status |
 |---|---|---|
-| Next element (context-aware) | Enter | ⬜ |
-| Change element (see element flow table in FADE-IN-REFERENCE.md) | Tab | ⬜ |
-| Soft return (new line, same paragraph) | Shift+Enter | ⬜ |
-| Non-breaking space | Shift+Cmd+Space | ⬜ |
+| Next element (context-aware) | Enter | ✅ |
+| Change element (see element flow table in FADE-IN-REFERENCE.md) | Tab | ✅ |
+| Soft return (new line, same paragraph) | Shift+Enter | ✅ |
+| Non-breaking space | Shift+Cmd+Space | ✅ |
 | Non-breaking hyphen | Shift+Cmd+Hyphen | ⬜ |
-| Autocomplete: accept / dismiss / re-show | Enter or Tab / Esc / Esc again | ⬜ |
+| Autocomplete: accept / dismiss / re-show | Enter or Tab / Esc / Esc again | ✅ |
 
 ## Help
 

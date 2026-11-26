@@ -48,7 +48,7 @@ export class StyleSheet {
       chain.unshift(cur);
       cur = cur.basedOn ? this.byName.get(cur.basedOn) : undefined;
     }
-    const out: ResolvedStyle = { ...BASE, name, builtin: chain.at(-1)?.builtin ?? false };
+    const out: ResolvedStyle = { ...BASE, name, builtin: chain[chain.length - 1]?.builtin ?? false };
     for (const s of chain) {
       for (const [k, v] of Object.entries(s)) {
         if (v !== undefined && k !== 'name' && k !== 'builtin') (out as unknown as Record<string, unknown>)[k] = v;
@@ -65,11 +65,15 @@ export class StyleSheet {
   }
 
   /** The block's style with its per-paragraph overrides applied. */
+  private readonly perBlock = new WeakMap<Block, ResolvedStyle>();
+
   forBlock(block: Block): ResolvedStyle {
     const base = this.resolve(block.style);
     const o = block.overrides;
     if (!o) return base;
-    return {
+    const hit = this.perBlock.get(block);
+    if (hit && hit.name === base.name) return hit;
+    const out: ResolvedStyle = {
       ...base,
       align: o.align ?? base.align,
       leftIndent: o.leftIndent ?? base.leftIndent,
@@ -77,5 +81,22 @@ export class StyleSheet {
       keepWithNext: o.keepWithNext ?? base.keepWithNext,
       pageBreakBefore: o.pageBreakBefore ?? base.pageBreakBefore,
     };
+    this.perBlock.set(block, out);
+    return out;
   }
+}
+
+const sheets = new WeakMap<ElementStyle[], StyleSheet>();
+/**
+ * The StyleSheet for a document's styles, reused while the styles array is
+ * unchanged (editing text never changes it), so resolved styles keep their
+ * identity between layouts and per-paragraph layout results can be reused.
+ */
+export function styleSheetFor(styles: ElementStyle[]): StyleSheet {
+  let sh = sheets.get(styles);
+  if (!sh) {
+    sh = new StyleSheet(styles);
+    sheets.set(styles, sh);
+  }
+  return sh;
 }
