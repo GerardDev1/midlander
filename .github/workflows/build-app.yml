@@ -3,7 +3,7 @@ name: Build app
 # Builds downloadable installers:
 #   - macOS: Midlander.dmg (one universal build for Intel and Apple silicon, macOS 12 or later)
 #   - Windows: Midlander setup .exe
-# Runs on every push to main, and can be started by hand from the Actions tab
+# Runs on every push to main and every pull request, and can be started by hand from the Actions tab
 # ("Build app" > "Run workflow"). Pushing a tag such as v0.1.0 also attaches
 # the installers to a draft GitHub release.
 
@@ -11,6 +11,7 @@ on:
   push:
     branches: [main]
     tags: ['v*']
+  pull_request:
   workflow_dispatch:
 
 permissions:
