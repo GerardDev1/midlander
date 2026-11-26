@@ -1,0 +1,262 @@
+# Fade In reference notes
+
+Behaviour notes on Fade In **4.1.1**, written in our own words. Sources:
+- the help manual and templates bundled with Gerard's installed copy (supplied 2026-11-26);
+- Fade In's public knowledge base.
+
+These notes record *what Fade In does*, so Midlander can behave the same way. No Fade In files, text, icons or code are stored in this repo. Keyboard shortcuts are in `SHORTCUTS.md`.
+
+---
+
+## 1. Element styles
+
+Eight built-in styles. All are based on **Normal Text** (also called Unformatted Text); change Normal Text's font and all of them change.
+
+### 1.1 Element flow (Enter and Tab)
+
+Each style has three "next style" settings: **Enter**, **Tab on an empty line** ("tab before") and **Tab at end of a line** ("tab after"). A blank setting means "stay the same style". All three are editable per style in Modify Element Style.
+
+| Style | Enter → | Tab on empty line → | Tab at end of text → | Caps | Keep with next |
+|---|---|---|---|---|---|
+| Scene Heading | Action | (none) | Action | yes | yes |
+| Action | (Action) | Character | Character ¹ | no | no |
+| Character | Dialogue | Action | Parenthetical | yes | yes |
+| Parenthetical | Dialogue | Dialogue | Dialogue | no | yes |
+| Dialogue | Action | Parenthetical | Parenthetical | no | no |
+| Transition | Scene Heading | (none) | Action | yes | no |
+| Shot | Action | (none) | Action | yes | yes |
+
+Values come from the help manual plus the style definitions in a bundled template (saved by Fade In 2.0).
+
+¹ The help says Tab at the end of a non-empty Action paragraph acts like Enter, but the template sets it to Character. **Confirm with test E2** in the checklist.
+
+### 1.2 Other element behaviours
+
+- Scene headings get **two** blank lines before them by default; most other elements get one. Parenthetical and Dialogue get none.
+- **Auto-detection** (Preferences > Editing, "reformat character names, transitions, etc."): typing `int. study - day` on a blank line turns it into a Scene Heading; obvious transitions and character names are reformatted as you type.
+- Deleting across elements is prevented from accidentally merging different element types.
+- **Enter on a blank line can pop up an element menu** (an optional preference).
+- **Act breaks**: a style can be marked as an act break, which ends the current scene for numbering purposes (TV templates use "New Act", "End of Act").
+- **Custom styles**: created per document and based on another style. Each has a name, font, size, bold/italic/underline, colour, left/right indent, alignment, space before, line spacing, keep-with-next, page-break-before, act break and the Enter/Tab settings. Built-in styles can't be deleted.
+- Per-word formatting: bold, italic, underline, strikethrough, highlight (several colours, searchable), font, case toggle.
+- **Adjust line length**: a per-paragraph indent override, shown with the ruler. **Auto Adjust Lines** finds paragraphs where a slightly longer line would pull a single orphaned word back up.
+- **Keep With Next** and **Page Break Before** are per-paragraph options.
+- **Dual dialogue**: applied to the selected character + dialogue and the immediately following character + dialogue.
+- **Quick Reformat**: a dialog for quickly reformatting all or part of a document. On Mac it uses number keys, needing "keyboard navigation of all controls" enabled.
+
+## 2. Page layout (defaults from the bundled template)
+
+Fade In stores lengths in **tenths of a millimetre**.
+
+| Setting | Stored | = |
+|---|---|---|
+| Page | 2159 × 2794 | US Letter, 8.5" × 11" |
+| Margin top | 317 | 1.25" |
+| Margin bottom | 220 | ~0.87" |
+| Margin left / right | 317 / 317 | 1.25" / 1.25" (KB confirms this is the default) |
+| Lines per inch | 6.0 | — |
+| Character left indent | 685 | 2.70" from the left margin |
+| Parenthetical indent L / R | 558 / 508 | 2.20" / 2.00" |
+| Dialogue indent L / R | 381 / 254 | 1.50" / 1.00" (so 3.5" wide) |
+| Transition | right-aligned | — |
+
+The built-in Screenplay template in 4.1.1 may differ slightly. **The sample .fadein file (checklist F1) will confirm the real defaults.**
+
+Other page settings stored in the file:
+- break dialogue on sentences;
+- dialogue continues across page breaks;
+- `(cont'd)` and `(MORE)` text;
+- scene CONTINUED on/off and its text;
+- OMITTED text;
+- scene-time separator `" - "`;
+- header `#.` right-aligned, not shown on the first page;
+- footer;
+- page/scene numbering modes;
+- locks;
+- dialogue numbering;
+- revision display.
+
+### 2.1 More and Continued
+
+- By default, dialogue split across pages gets `(MORE)` at the bottom and `NAME (cont'd)` at the top of the next page.
+- A character who speaks again right after their own last speech in the same scene also gets `(cont'd)`.
+- Optional `CONTINUED` at the top/bottom of pages for scenes spanning pages.
+- Any of these is disabled by leaving its text blank.
+
+### 2.2 Header and footer placeholders
+
+| Token | Meaning |
+|---|---|
+| `#` | page number |
+| `*` | revision of this page |
+| `**` | document revision |
+| `@` | current date |
+| `\` before a token | literal character |
+| `{Date}`, `{Filename}`, `{Page}`, `{Pages}` | as named |
+| `{PageColor}`, `{PageRevision}`/`{PageRev}`, `{Revision}` | revision fields |
+| `{yy-mm-dd}`, `{d-m-yyyy}`, `{mmm. d, yyyy}` | date formats |
+| `{Title}`, `{Subtitle}`, `{Author}`, `{Contact}`, `{Copyright}`, `{Draft}` | from title page bookmarks |
+| `{Scene Heading}` or `{Scene}` | current scene number |
+| `{"Scene"<25}` | current scene heading text, truncated |
+| `:0n` suffix | zero-pad, e.g. `{Scene:03}` |
+| `{Field? text}` | adds "text" only if the field is non-empty |
+
+Midlander implements the same token language, so headers from imported .fadein files keep working.
+
+### 2.3 Title page
+
+A separate, editable sub-document. Paragraphs can carry bookmarks: Title, Subtitle, Author, Copyright, Contact, Draft. Multi-line fields use Shift+Enter inside one paragraph.
+
+## 3. Lists and autocomplete
+
+- **Lists:** Characters, Locations, and "Other" (Scene Intros, Scene Times, Character Extensions, Transitions).
+- **Characters** are added automatically as they're typed. Each can have a gender (F/M/T) and a "retain" flag, which keeps it through a rebuild. Setting a gender implies retain.
+- **Locations** are added automatically from scene headings, after stripping the intro (INT./EXT.) and the time (- DAY).
+- **Rebuild** clears non-retained items and rescans the script. **Sort** sorts alphabetically. **Reset** restores defaults (Other lists).
+- **Autocomplete:**
+  - Context-aware: e.g. "i" on a blank Scene Heading offers INT. and INT./EXT.
+  - Up/Down to move through suggestions; Enter or Tab to accept (a single match is accepted directly).
+  - Esc dismisses; Esc again re-shows.
+  - Optional: guess the next speaker when two or more characters alternate.
+- **Manage Lists** (Document menu) can import lists from another document.
+
+## 4. Navigation
+
+- **Navigator**:
+  - Lists all scene headings and follows the current scene. Enter or double-click jumps there.
+  - Multi-select, cut/copy/paste, drag-and-drop (only scene headings can be dragged).
+  - Show options: synopses; length in **eighths of a page** or estimated running time (one minute per page).
+  - **Folders**: drag a scene beneath another to nest it. The drop depth depends on the mouse's horizontal position. Moving a folder moves its contents. "Flatten This Folder" un-nests.
+  - Since v5, also lists notes and bookmarks.
+- **Index cards** (Document > Index Cards):
+  - One card per scene, showing synopsis or scene text.
+  - Optionally organised by Navigator folders, and coloured by synopsis colour.
+  - Add, move, copy or delete cards. Cmd-click a card to jump to that scene in the editor.
+- **Go To**: jump to a scene, page or bookmark.
+- **Find**: a panel; Esc closes it. **Find and Replace**: a dialog with direction and match-case options. Find Next/Previous wraps around the document.
+- **Synopses** (attachable to any paragraph, with a colour category), **notes** (sticky notes, never printed), **bookmarks** and **links** (to bookmarks or URLs; Cmd-click follows them). Each has show/hide icons; hiding also excludes them from exports.
+
+## 5. Views
+
+- **View modes:**
+  - **Normal**: page layout without separated pages.
+  - **Page View**: separated pages.
+  - **Continuous**: no page breaks.
+  - **Side by Side**: several pages across.
+- **Layouts**: Left/Right/Top/Bottom presets; save and restore a custom layout. Panels dock, float and resize. The layout is restored on relaunch.
+- **Tabs**: one document per tab. Tabs can be split side by side and joined back. A document list popup shows all open documents.
+- **Format/Roster panel** with tabs: Format, Characters, Locations, Other. Double-click an item to apply it.
+- **Toolbar**: customisable via right-click > Customize Toolbar.
+- **Custom view colours** (dark mode), **focus current text**, **show invisibles** (spaces, hard and soft returns, column blocks), **zoom**, **full screen** (menu still visible) and **full screen minimal** (everything hidden).
+
+## 6. Production
+
+- **Page numbering:** Lock Page Numbers / relock / Unlock Current Page / Edit Page Number / Renumber Pages (needs locked pages).
+- **Scene numbering:** show/hide and format. Lock / relock / edit / renumber. Option to skip numbering intro-less headings.
+- **Additional numbering:** other elements, e.g. dialogue in animation scripts. In dual dialogue only the outside is numbered; parentheticals are never numbered.
+- **Numbering modes for inserts:**
+  - `1AB`: 1, 1A, 1AA, 1AB, 1B, 2 (the default)
+  - `1A2`: 1, 1A, 1A1, 1A2, 1B, 2
+  - `AB2`: 1, A2, AA2, AB2, B2, 2
+  - `BA2`: 1, A2, AA2, BA2, B2, 2
+  - `XIV`: Roman numerals, with inserts as I(A), I(B)
+  - `xiv`: lowercase Roman numerals
+- **Revisions:**
+  - Standard colour order: White → Blue → Pink → Yellow → Green → Goldenrod → Buff → Salmon → Cherry → Tan. Names and colours are editable per document, and can be saved and loaded.
+  - **Revision mode** auto-marks edits with `*` in the margin and flags the page with the revision colour.
+  - **Current revision** and **document revision** can differ.
+  - Show options: none, current, all, page revision (highest on the page), or selected colours.
+  - Mark / Unmark selection. Modify Revisions changes one colour to another.
+  - A-pages created in revision mode take the current colour.
+  - Optional on-screen coloured pages and coloured revised text.
+- **Omit Scene / unomit** (OMITTED placeholder).
+- **Scene Versions**: saved, labelled versions of a scene that you can switch between.
+- **Alternates**: several versions of one element.
+  - Add, delete, next/previous.
+  - Show inline as `alt1 // alt2`, separate them again, or edit them in a dialog.
+- **Tagging window:**
+  - Categories (cast, stunts, vehicles, props, camera, wardrobe, effects… customisable).
+  - Tag the selection; Tag All (once per scene or every occurrence); Auto Tag (e.g. all characters as Cast).
+- **Reports** (print, HTML or CSV):
+  - **Scene**: number, heading, page, eighths, dialogue count per character; first appearance in bold italic.
+  - **Cast**: dialogues, words, lines at 50 letters/line, speaking scenes, total scenes.
+  - **Character**: scenes per character, speaking and optionally non-speaking.
+  - **Dialogue**: all of one character's lines.
+  - **Gender**: inclusivity by speaking role.
+  - **Location**: by INT./EXT. with scene and page.
+  - **Notes**, **Synopsis**, **Revisions**, **Tagging**.
+  - **Element**: custom, by element type.
+  - **Statistics**: lengths, word usage.
+
+## 7. Document tools
+
+- **Change Character Name** throughout the script, with correct formatting.
+- **Dialogue Tuner**: view and edit all of one character's dialogue.
+- **Check Spelling**: per-document and global dictionaries, choice of language.
+- **Online Tools**: configurable dictionary/thesaurus URLs using `%s`.
+- **Compare to Previous**: highlights additions and deletions, or marks them as revisions.
+- **Find Errors**: a configurable set of formatting checks.
+- **Table Read**: system voices assigned per character, with play/rewind/fast-forward.
+- **Images**: insert on the title page or in the script; resize by percentage, within margins.
+
+## 8. Files
+
+- **Native .fadein**: a **zip archive containing `document.xml`** in Open Screenplay Format XML. The root is `<document type="Open Screenplay Format document" version="…">`, with sections:
+  - `info`, `settings`, `fadein_settings`;
+  - `styles` (including header/footer style);
+  - `paragraphs` (each `<para>` has a `<style basestylename=…/>` and one or more `<text>` runs with formatting attributes);
+  - `titlepage`;
+  - `spelling`;
+  - `lists` (characters, locations, scene_intros, scene_times, extensions, transitions, revision_colors, tag_categories).
+
+  Templates are the same format with `is_template="true"`.
+- **Open:** .fadein only. Everything else goes through **Import**:
+  - Adobe Story, Celtx, Final Draft (.fdx, .fdr), formatted text, Fountain, Highland, HTML, RTF, screenplay PDF, Scrivener, unformatted text, OSF .xml;
+  - Word .docx (per the KB).
+- **Export:**
+  - Avid Script-Based Editing .txt, EPUB (book or script), FDX, formatted text, Fountain, HTML, Open Scheduling Format .xml, RTF, Scrivener (import and split) RTF, unformatted text, OSF .xml;
+  - Word .docx (per the KB);
+  - holding Shift or Option shows extra options such as scene numbers.
+- **Other File menu items:**
+  - Open Recent (count set in Preferences); Close; Revert to Saved; Save All.
+  - Templates: New From, Manage, Apply, Save As (Shift skips fonts).
+  - Extract pages to a new document, and join documents.
+  - Find File on Disk; Recover Backup (.autosave files); document Password.
+  - Create PDF; Batch Watermark; Print Setup; Print Preview.
+  - **Print**: Fade In's own dialog first (A-page ranges like `1-2,3B-9A`, revisions, character sides, element highlighting), then the system dialog.
+  - **This Session**: time, words typed, net new pages, and a writing timer.
+- **Fountain editing** (optional): Copy as Fountain, Paste as Fountain, Edit as Fountain.
+- **Autosave** writes to `~/Library/Application Support/Fade In/autosave` on Mac, at the interval set in Preferences.
+
+## 9. Preferences
+
+- **General:**
+  - reopen last document; reopen all tabs; remember editing position;
+  - automatic backup interval; number of recent documents;
+  - units (inches/cm); default font; default spelling language; update notifications.
+- **Editing:**
+  - autocomplete; guess next speaker; auto-reformat obvious elements;
+  - spell check; autocorrect; autocapitalise first word; fix DOuble CAps; smart quotes;
+  - smart selection; Fountain editing; Enter-on-blank-line element menu; online tools.
+- **User Interface:**
+  - brightness; theme; revision colour display; custom view colours; splash screen;
+  - keep typing centred (typewriter scrolling); block cursor; always show ruler;
+  - system selection colour; shortcut keys; reset user interface.
+
+## 10. Menus at a glance
+
+**File, Edit, View, Format, Document, Production, Collaborate, Help.** On Mac, Preferences is under the app menu.
+
+| Menu | Main items |
+|---|---|
+| Edit | Undo/Redo, Cut/Copy/Paste/Delete, Fountain submenu, Select All, Find, Find and Replace, Find Next/Previous, Go To, Extensions (third-party web tools) |
+| Help | Help, Start Page (new from template / recent), Shortcut Keys, Website, Support, Knowledge Base, Release Notes, Check for Updates, Register, About |
+| Collaborate | Start, Join, Status, Resync, Leave, Chat (out of scope for Midlander v1) |
+
+## 11. Still unknown (needs screenshots or tests)
+
+- Exact visual layout: toolbar buttons, panel sizes, status bar (if any), and the Start Page.
+- Element flow detail: footnote ¹ above, plus Shift/Option+Enter behaviour.
+- The 4.1.1 built-in **Screenplay** template's exact indents and spacing (from the sample file).
+- Exact page-break thresholds: minimum lines kept together, sentence breaking (from sample PDF comparison).
+- Contents of the Preferences dialogs, Page Layout, Header/Footer and Reports dialogs.
