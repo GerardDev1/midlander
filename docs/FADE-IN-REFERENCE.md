@@ -95,7 +95,19 @@ These numbers are the layout engine's acceptance targets.
    - **(MORE):** on its own line directly below the last dialogue line, at the **Character indent** (3.75"). That line counts within the 54: dialogue ended on line 53, (MORE) took line 54.
    - **Continued cue:** at the top of the next page, the cue is repeated as `CAROL (O.S.) (cont'd)` (extension kept, then " (cont'd)"). It's printed **one line above the normal first line**: at 61.4 pt, in the top margin. So the continued dialogue still starts on line 1 and the cue doesn't use up a body line.
    - The rest of the page then flows normally (Action after the speech gets its usual blank line).
-7. **Still unknown:** the minimum number of dialogue lines on each side of a split; how Action is split (sentence boundary, minimum lines); whether a Parenthetical can end a page.
+7. **Action split across a page** (third sample, an 18-line Action paragraph starting on line 43):
+   - It splits at the last **sentence end** that fits. The first part filled lines 43–53 and ended mid-line at "…to the man.". Line 54 was left empty rather than starting the next sentence.
+   - The rest continues on line 1 of the next page (7 lines), with **no (MORE), no CONTINUED** and no blank line above it.
+   - Wrapping treats `man.Cliodhna` (no space) as one word, and keeps runs of double spaces as typed.
+8. **Dual dialogue that isn't adjacent:** MAN and TOM were both marked as dual dialogue, but an Action line ("Dsdsd") sat between them. Fade In **didn't place them side by side**. Each was drawn on its own, in the **left column's** layout:
+   - cue at 155.3 pt (0.91" in from the margin);
+   - parenthetical at 120.3 pt (0.43", printed with brackets: `(easy)`);
+   - dialogue at the margin (89.5 pt), wrapping at about 23–28 characters ("Is that a phone in your" / "hand?").
+
+   A properly adjacent pair, and the right column's positions, still need a sample. The golden test script will include one.
+9. **Empty paragraphs take a line, as noted in rule 5.** An empty Dialogue under TOM used one line, then the next Action got its usual blank line.
+10. **Parentheses confirmed:** the stored text "easy" printed as `(easy)`.
+11. **Still unknown:** the minimum number of lines on each side of a split; whether a Parenthetical can end a page; positions for a real side-by-side dual dialogue pair.
 
 **Scene lengths in eighths** (as reported by Fade In in its FDX export) for the six scenes:
 `1 3/8`, `1/8`, `4/8`, `1/8`, `5/8`, `1 6/8`.
@@ -106,7 +118,7 @@ These numbers are the layout engine's acceptance targets.
 
 - Text is stored **as typed**: `int. Bathroom cubicle - morning`. Capitals are applied when displayed. Midlander does the same.
 - Character extensions are part of the Character paragraph's text: `carol (O.S.)`.
-- **Parentheticals are stored without their brackets** (`<text>easy</text>`), so Fade In adds the ( ) when displaying. To confirm against a PDF.
+- **Parentheticals are stored without their brackets** (`<text>easy</text>`). Fade In adds the ( ) when displaying and printing (confirmed in PDF).
 - **Dual dialogue** is stored as `dualdialogue="1"` on the paragraph's `<style>` element of **both** Character cues in the pair. Everything else in those paragraphs is unchanged.
 - Locations are stored without the intro and the final time, but keep other parts: `car - outside parents house`.
 
@@ -334,6 +346,6 @@ A separate, editable sub-document. Paragraphs can carry bookmarks: Title, Subtit
 ## 11. Still unknown (needs screenshots or tests)
 
 - Exact visual layout: toolbar buttons, panel sizes, status bar (if any), and the Start Page.
-- Minimum lines on each side of a dialogue split; how Action is split across pages. The golden test script will cover both.
+- Minimum lines on each side of a dialogue or action split, and the layout of a real side-by-side dual dialogue pair. The golden test script will cover both.
 - The exact rule for counting scene length in eighths.
 - Contents of the Preferences dialogs, Page Layout, Header/Footer and Reports dialogs.
