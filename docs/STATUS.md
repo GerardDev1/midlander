@@ -8,9 +8,11 @@ Legend: ✅ done and tested · 🟡 partial (see notes) · ⬜ planned · ❌ ou
 
 | Item | Status | Notes |
 |---|---|---|
-| Feature inventory | 🟡 | Drafted from public docs; items marked TBC await reference material |
-| Interface breakdown | 🟡 | Same |
-| Shortcut list | 🟡 | Full default list needs screenshot B1 |
+| Feature inventory | ✅ | `SPEC.md` §2, now confirmed against Fade In 4.1.1's own help manual |
+| Interface breakdown | 🟡 | Menus and panels confirmed; toolbar and status bar await screenshots C1–C7 |
+| Shortcut list | ✅ | `SHORTCUTS.md`: complete default keymap |
+| Fade In behaviour notes | ✅ | `FADE-IN-REFERENCE.md` |
+| .fadein format | 🟡 | Structure confirmed (zip + OSF XML); 4.1.1 details await sample files F1/F6 |
 | Technical assessment | ✅ | `SPEC.md` §5 |
 | Technology stack | ✅ | Tauri + TypeScript/React + ProseMirror; awaiting approval |
 | Roadmap | ✅ | `SPEC.md` §7 |
