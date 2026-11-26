@@ -5,15 +5,18 @@
   "description": "Midlander: a desktop screenwriting application",
   "type": "module",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "app"
   ],
   "engines": {
     "node": ">=22.18"
   },
   "scripts": {
-    "test": "node --test \"packages/*/test/*.test.ts\"",
+    "test": "node --test \"packages/*/test/*.test.ts\" \"app/test/*.test.ts\"",
     "typecheck": "tsc -p tsconfig.json",
-    "compare": "node tools/compare-layout.ts"
+    "compare": "node tools/compare-layout.ts",
+    "app:dev": "npm run dev -w @midlander/app",
+    "app:build": "npm run build -w @midlander/app"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

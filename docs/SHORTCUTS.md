@@ -4,7 +4,7 @@
 
 On Windows/Linux, Midlander follows Fade In's Windows column (mostly Ctrl in place of Cmd, Alt in place of Option). Only the Mac column is listed here.
 
-Status: ⬜ planned · ✅ implemented. All are ⬜ until the editor exists.
+Status: ⬜ planned · 🟡 partly implemented · ✅ implemented. The read-only app shell (Phase 2) has the first few; the rest arrive with the editor.
 
 ## Files
 
@@ -12,14 +12,14 @@ Status: ⬜ planned · ✅ implemented. All are ⬜ until the editor exists.
 |---|---|---|
 | New document | Cmd+N | ⬜ |
 | New from template | Shift+Cmd+N | ⬜ |
-| Open | Cmd+O | ⬜ |
-| Close document | Cmd+W | ⬜ |
+| Open | Cmd+O | ✅ |
+| Close document | Cmd+W | ✅ |
 | Save | Cmd+S | ⬜ |
 | Save As | Shift+Cmd+S | ⬜ |
 | Save All | Option+Cmd+S | ⬜ |
 | Print | Cmd+P | ⬜ |
 | This Session (session statistics) | Shift+Cmd+I | ⬜ |
-| Quit | Cmd+Q | ⬜ |
+| Quit | Cmd+Q | ✅ |
 
 ## Editing
 
@@ -27,12 +27,12 @@ Status: ⬜ planned · ✅ implemented. All are ⬜ until the editor exists.
 |---|---|---|
 | Undo | Cmd+Z | ⬜ |
 | Redo | Cmd+Y, or Shift+Cmd+Z | ⬜ |
-| Cut / Copy / Paste | Cmd+X / Cmd+C / Cmd+V | ⬜ |
+| Cut / Copy / Paste | Cmd+X / Cmd+C / Cmd+V | 🟡 Copy only (page view is read-only) |
 | Copy as Fountain (if enabled) | Shift+Cmd+C | ⬜ |
 | Paste as Fountain (if enabled) | Shift+Cmd+V | ⬜ |
 | Paste Unformatted | Shift+Option+Cmd+V | ⬜ |
 | Clear undo history | Option+Shift+Cmd+NumPad-Del | ⬜ (low priority) |
-| Select All | Cmd+A | ⬜ |
+| Select All | Cmd+A | ✅ |
 | Find | Cmd+F | ⬜ |
 | Find and Replace | Shift+Cmd+F | ⬜ |
 | Find Next / Previous | Cmd+G / Shift+Cmd+G | ⬜ |
@@ -56,8 +56,8 @@ Status: ⬜ planned · ✅ implemented. All are ⬜ until the editor exists.
 | Custom view colours (dark mode) | Option+Cmd+R | ⬜ |
 | Focus current text | Option+Cmd+U | ⬜ |
 | Show invisibles | Option+Cmd+V | ⬜ |
-| Zoom in / out | Cmd+plus / Cmd+minus | ⬜ |
-| Zoom 100% | Option+Shift+Cmd+0 | ⬜ |
+| Zoom in / out | Cmd+plus / Cmd+minus | ✅ |
+| Zoom 100% | Option+Shift+Cmd+0 | ✅ |
 | Full screen | Option+Enter | ⬜ |
 | Full screen minimal | Option+Shift+Enter | ⬜ |
 
