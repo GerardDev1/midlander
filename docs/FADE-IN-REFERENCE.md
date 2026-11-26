@@ -63,7 +63,40 @@ Values are from a script saved by Gerard's 4.1.1 (`saved_with="4.1.1.1038"`). Fa
 | Break dialogue on sentences | `true` | — | `false` |
 | Header | `#.` right-aligned, not on page 1 | — | same |
 
-In Gerard's file, the Scene Heading is **bold** and the font is **Courier New**. Those may be his own settings rather than Fade In's defaults (to confirm).
+- **Font:** Fade In 4.1.1's default is **Courier New** (confirmed by Gerard).
+- **Bold scene headings:** Gerard's own choice (Modify Element Style > Scene Heading > Bold), not a default.
+
+### 2.0a Measured from Fade In's PDF output
+
+These are from a 5-page script (plus title page) that Gerard exported with Create PDF. The script itself is private and not in this repo.
+
+These numbers are the layout engine's acceptance targets.
+
+| Measurement | Value |
+|---|---|
+| Character width / line height | 7.2 pt (10 per inch) / 12 pt (6 per inch) |
+| Text left edge | 89.5 pt (1.25"); Action wraps at **60** characters |
+| Dialogue | starts 183.1 pt (2.55"); wraps at **37** characters |
+| Character cue | starts 269.5 pt (3.75") |
+| Top text line | glyph tops at 73.4 pt from the page top (1.05" top margin) |
+| Lowest text line seen | 697.4 pt from top, i.e. line 53 |
+| Page capacity | **54 lines** (9.05" ÷ 1/6"). Line 54 not yet observed; to verify with a longer script |
+| Page number | `2.` right-aligned to the right margin (ends at 7.25"), about 0.44" from the top. **None on page 1** (header_first_page=false) |
+| Title page | Unnumbered and doesn't count towards page numbers. Script page 1 is PDF page 2 |
+| Wrapping | Word wrap at spaces only; trailing spaces ignored. A missing space after `.)` stays joined (`up.)She`) |
+
+**Observed pagination rules:**
+1. **No space-before at the top of a page.** A Scene Heading or Action that starts a page sits on line 1, without its usual blank lines.
+2. **A Character cue with little room left moves with its dialogue.** In one case the cue would have landed on line 53, leaving at most one dialogue line on the page. Fade In moved the whole speech instead. Either a page holds 53 lines, or a split needs at least 2 dialogue lines on the first page; the longer sample will tell which.
+3. **Scene Heading keeps with next.** A heading with no room for the first line of the following Action moved to the next page.
+4. **Automatic `(cont'd)`**: "TOM (cont'd)" appears when the same character speaks again after only Action in between. It's lowercase and separated by one space.
+5. **Empty paragraphs take up space.** An empty Action paragraph still takes its blank line plus one empty line.
+6. No dialogue or action was split across pages in this sample, so (MORE) splitting is still untested. **A longer sample is needed.**
+
+**Scene lengths in eighths** (as reported by Fade In in its FDX export) for the six scenes:
+`1 3/8`, `1/8`, `4/8`, `1/8`, `5/8`, `1 6/8`.
+- Each scene's length is at least 1/8.
+- These values are a test oracle. The exact counting rule (which lines count, and how rounding works) will be fitted against these plus a longer sample.
 
 ### 2.0 How text is stored
 
@@ -246,6 +279,19 @@ A separate, editable sub-document. Paragraphs can carry bookmarks: Title, Subtit
   - Create PDF; Batch Watermark; Print Setup; Print Preview.
   - **Print**: Fade In's own dialog first (A-page ranges like `1-2,3B-9A`, revisions, character sides, element highlighting), then the system dialog.
   - **This Session**: time, words typed, net new pages, and a writing timer.
+- **What Fade In's exports look like** (from Gerard's sample):
+  - **Fountain**:
+    - Title page keys `Title`, `Author`, `Draft date` (from the Draft bookmark), `Copyright`, `Contact`; multi-line values are indented.
+    - Scene headings and character cues are written in capitals.
+    - Extensions are kept inline: `CAROL (O.S.)`.
+    - An empty Action paragraph becomes extra blank lines.
+  - **FDX**:
+    - `<FinalDraft DocumentType="Script" Version="2">`.
+    - Paragraph types match the element names.
+    - Each Scene Heading carries `<SceneProperties Length="1 3/8" Page="1">`.
+    - Styles are written as Final Draft `ElementSettings`, with absolute indents in inches: Character 3.75; Dialogue 2.55–6.25; Parenthetical 3.25–5.25 with −0.10 first-line indent; Transition 5.25–6.75, right-aligned. Space-before is in points (Scene Heading 24 = 2 lines).
+    - Also written: `SmartType` lists, `MoresAndContinueds`, nine revision colours, header with a page-number label, a title page, and many Final Draft defaults (macros, table-read voices, tag categories). Midlander's FDX writer only needs the parts that carry script content and formatting.
+- **Fade In demo version:** PDFs carry the line "(Printed with the demonstration version of Fade In)" at the top. This is ignored when comparing.
 - **Fountain editing** (optional): Copy as Fountain, Paste as Fountain, Edit as Fountain.
 - **Autosave** writes to `~/Library/Application Support/Fade In/autosave` on Mac, at the interval set in Preferences.
 
@@ -277,6 +323,6 @@ A separate, editable sub-document. Paragraphs can carry bookmarks: Title, Subtit
 ## 11. Still unknown (needs screenshots or tests)
 
 - Exact visual layout: toolbar buttons, panel sizes, status bar (if any), and the Start Page.
-- Whether bold scene headings and Courier New are Fade In's 4.1.1 defaults or Gerard's own settings.
-- Exact page-break thresholds: minimum lines kept together, sentence breaking (from sample PDF comparison).
+- Exact page-break thresholds when **dialogue or action is split** across pages, including (MORE) placement and the minimum lines on each side. This needs a longer sample.
+- The exact rule for counting scene length in eighths.
 - Contents of the Preferences dialogs, Page Layout, Header/Footer and Reports dialogs.

@@ -19,12 +19,12 @@ Attach them in chat. **Don't upload scripts to the GitHub repo**: it's public, s
 Take one script (a copy), ideally 20+ pages, with dialogue crossing page breaks, parentheticals, a transition and dual dialogue if you use it. From Fade In, produce:
 
 - [x] F1 A 5-page script as .fadein (received 2026-11-26; kept private, not in the repo)
-- [ ] F2 **The same script** as a PDF (File > Create PDF, default settings). This is the most important item now: it's what Midlander's page breaks get compared against.
-- [ ] F3 The same script as .fdx (File > Export > Final Draft)
-- [ ] F4 The same script as .fountain (File > Export > Fountain)
-- [ ] F5 The same script as formatted text (File > Export > Formatted Text)
-- [ ] F6 A **longer** script (20+ pages, ideally with dialogue running across a page break) as .fadein + PDF, whenever convenient
-- [ ] F7 Question: did *you* make scene headings bold and choose Courier New, or are those Fade In's defaults?
+- [x] F2 Same script as PDF (received; layout measured → `FADE-IN-REFERENCE.md` §2.0a)
+- [x] F3 Same script as .fdx (received)
+- [x] F4 Same script as .fountain (received)
+- [ ] F5 Same script as formatted text (optional)
+- [ ] F6 **Golden test script:** Claude will write an original test screenplay (in Phase 2). Gerard pastes it into Fade In, then exports PDF, .fadein, .fdx and .fountain. These become the permanent public reference, and they will cover dialogue split across pages, which your sample didn't include.
+- [x] F7 Bold scene headings = Gerard's choice; Courier New = Fade In default
 
 If the script is private, that's fine: these files are only used privately in our chats, never committed to the repo. Or ask me for a test script you can paste into Fade In.
 

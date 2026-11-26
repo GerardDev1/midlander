@@ -290,7 +290,10 @@ Exact minimum-line thresholds will be tuned against Gerard's Fade In PDFs (check
 
 The editor shows those page breaks as page gaps, page numbers and (MORE)/(cont'd) decorations, so what you see while writing is the final page.
 
-**Font:** ship **Courier Prime** (SIL Open Font Licence, free to bundle) as the default. It's also one of the fonts Fade In's knowledge base recommends. Any installed Courier can be chosen instead.
+**Font:**
+- Default to **Courier New**, as Fade In 4.1.1 does. It comes with every Mac and Windows PC, so it doesn't need bundling.
+- Bundle **Courier Prime** (SIL Open Font Licence) as the fallback, for systems without Courier New and as an option.
+- Every screenplay Courier is 10 characters per inch, so the choice of font never changes page breaks.
 
 ### 5.4 PDF and print
 
@@ -331,7 +334,18 @@ All reports are pure functions over the document model → table → on-screen v
 - the Cast report counts lines at 50 letters per line;
 - the Scene report shows length in eighths and marks a character's first appearance in bold italic.
 
-### 5.9 Known hard parts and risks
+### 5.9 Test material and privacy
+
+- **Gerard's own scripts are never committed** (the repo is public). They're used privately during sessions, re-attached each time, and only the layout measurements derived from them are recorded (`FADE-IN-REFERENCE.md` §2.0a).
+- For permanent automated tests, Claude writes an **original test screenplay** covering everything in §8 of the brief:
+  - multiple scenes, INT./EXT., day and night;
+  - many characters, parentheticals and transitions;
+  - a montage, a flashback, dual dialogue;
+  - long speeches forced across page breaks.
+
+  Gerard pastes it into Fade In and exports PDF, .fadein, .fdx and .fountain. Those files go into `test-scripts/` as the **golden reference**. Every build is checked against them: page breaks, line positions, (MORE)/(cont'd) and scene eighths.
+
+### 5.10 Known hard parts and risks
 
 | Risk | Mitigation |
 |---|---|
