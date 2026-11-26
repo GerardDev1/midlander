@@ -1,0 +1,69 @@
+name: Build app
+
+# Builds downloadable installers:
+#   - macOS: Midlander.dmg (one universal build for Intel and Apple silicon, macOS 12 or later)
+#   - Windows: Midlander setup .exe
+# Runs on every push to main, and can be started by hand from the Actions tab
+# ("Build app" > "Run workflow"). Pushing a tag such as v0.1.0 also attaches
+# the installers to a draft GitHub release.
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macos
+            runner: macos-14
+            args: --target universal-apple-darwin
+            rust-targets: aarch64-apple-darwin,x86_64-apple-darwin
+            files: app/src-tauri/target/universal-apple-darwin/release/bundle/dmg/*.dmg
+          - name: windows
+            runner: windows-2022
+            args: --bundles nsis
+            rust-targets: ''
+            files: app/src-tauri/target/release/bundle/nsis/*.exe
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.rust-targets }}
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: app/src-tauri
+      - run: npm ci
+      - run: npm test
+
+      - name: Build installer
+        working-directory: app
+        run: npx tauri build ${{ matrix.args }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Midlander-${{ matrix.name }}
+          path: ${{ matrix.files }}
+          if-no-files-found: error
+
+      - name: Attach to draft release (tags only)
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 || gh release create "$GITHUB_REF_NAME" --draft --title "Midlander $GITHUB_REF_NAME" --notes "See docs/STATUS.md for what this build can do."
+          gh release upload "$GITHUB_REF_NAME" ${{ matrix.files }} --clobber

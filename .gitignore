@@ -8,3 +8,6 @@ target/
 # Never commit these (the repo is public).
 private/
 test-scripts/private/
+
+# Tauri generated files
+app/src-tauri/gen/
