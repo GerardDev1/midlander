@@ -79,19 +79,23 @@ These numbers are the layout engine's acceptance targets.
 | Dialogue | starts 183.1 pt (2.55"); wraps at **37** characters |
 | Character cue | starts 269.5 pt (3.75") |
 | Top text line | glyph tops at 73.4 pt from the page top (1.05" top margin) |
-| Lowest text line seen | 697.4 pt from top, i.e. line 53 |
-| Page capacity | **54 lines** (9.05" ÷ 1/6"). Line 54 not yet observed; to verify with a longer script |
+| Page capacity | **54 lines** (9.05" ÷ 1/6"), confirmed: (MORE) printed on line 54 (709.4 pt) |
 | Page number | `2.` right-aligned to the right margin (ends at 7.25"), about 0.44" from the top. **None on page 1** (header_first_page=false) |
 | Title page | Unnumbered and doesn't count towards page numbers. Script page 1 is PDF page 2 |
 | Wrapping | Word wrap at spaces only; trailing spaces ignored. A missing space after `.)` stays joined (`up.)She`) |
 
 **Observed pagination rules:**
 1. **No space-before at the top of a page.** A Scene Heading or Action that starts a page sits on line 1, without its usual blank lines.
-2. **A Character cue with little room left moves with its dialogue.** In one case the cue would have landed on line 53, leaving at most one dialogue line on the page. Fade In moved the whole speech instead. Either a page holds 53 lines, or a split needs at least 2 dialogue lines on the first page; the longer sample will tell which.
+2. **A Character cue with little room left moves with its dialogue.** In one case the cue would have landed on line 53, leaving room for only one dialogue line before (MORE) on line 54. Fade In moved the whole speech instead, so a split needs **at least 2 dialogue lines** on the first page. The exact minimum is still to confirm.
 3. **Scene Heading keeps with next.** A heading with no room for the first line of the following Action moved to the next page.
 4. **Automatic `(cont'd)`**: "TOM (cont'd)" appears when the same character speaks again after only Action in between. It's lowercase and separated by one space.
 5. **Empty paragraphs take up space.** An empty Action paragraph still takes its blank line plus one empty line.
-6. No dialogue or action was split across pages in this sample, so (MORE) splitting is still untested. **A longer sample is needed.**
+6. **Dialogue split across a page** (second sample, a 12-line speech with the cue on line 44):
+   - **Where it splits:** after the last complete **sentence** that fits ("…okay?"). The setting `break_on_sentences="true"` is on, and the split is not forced at the last line that fits. This one went 9 lines on the first page and 3 on the next.
+   - **(MORE):** on its own line directly below the last dialogue line, at the **Character indent** (3.75"). That line counts within the 54: dialogue ended on line 53, (MORE) took line 54.
+   - **Continued cue:** at the top of the next page, the cue is repeated as `CAROL (O.S.) (cont'd)` (extension kept, then " (cont'd)"). It's printed **one line above the normal first line**: at 61.4 pt, in the top margin. So the continued dialogue still starts on line 1 and the cue doesn't use up a body line.
+   - The rest of the page then flows normally (Action after the speech gets its usual blank line).
+7. **Still unknown:** the minimum number of dialogue lines on each side of a split; how Action is split (sentence boundary, minimum lines); whether a Parenthetical can end a page.
 
 **Scene lengths in eighths** (as reported by Fade In in its FDX export) for the six scenes:
 `1 3/8`, `1/8`, `4/8`, `1/8`, `5/8`, `1 6/8`.
@@ -291,6 +295,11 @@ A separate, editable sub-document. Paragraphs can carry bookmarks: Title, Subtit
     - Each Scene Heading carries `<SceneProperties Length="1 3/8" Page="1">`.
     - Styles are written as Final Draft `ElementSettings`, with absolute indents in inches: Character 3.75; Dialogue 2.55–6.25; Parenthetical 3.25–5.25 with −0.10 first-line indent; Transition 5.25–6.75, right-aligned. Space-before is in points (Scene Heading 24 = 2 lines).
     - Also written: `SmartType` lists, `MoresAndContinueds`, nine revision colours, header with a page-number label, a title page, and many Final Draft defaults (macros, table-read voices, tag categories). Midlander's FDX writer only needs the parts that carry script content and formatting.
+- **Formatted Text (.txt) export:**
+  - Character cue at 25 spaces, dialogue at 12 spaces.
+  - Dialogue wraps at **36** characters (one fewer than the PDF's 37), and Action at 58–60.
+  - Automatic (cont'd) is included; page breaks are not marked.
+  - It's an approximation of the page, not an exact copy, and is low priority for matching.
 - **Fade In demo version:** PDFs carry the line "(Printed with the demonstration version of Fade In)" at the top. This is ignored when comparing.
 - **Fountain editing** (optional): Copy as Fountain, Paste as Fountain, Edit as Fountain.
 - **Autosave** writes to `~/Library/Application Support/Fade In/autosave` on Mac, at the interval set in Preferences.
@@ -323,6 +332,6 @@ A separate, editable sub-document. Paragraphs can carry bookmarks: Title, Subtit
 ## 11. Still unknown (needs screenshots or tests)
 
 - Exact visual layout: toolbar buttons, panel sizes, status bar (if any), and the Start Page.
-- Exact page-break thresholds when **dialogue or action is split** across pages, including (MORE) placement and the minimum lines on each side. This needs a longer sample.
+- Minimum lines on each side of a dialogue split; how Action is split across pages. The golden test script will cover both.
 - The exact rule for counting scene length in eighths.
 - Contents of the Preferences dialogs, Page Layout, Header/Footer and Reports dialogs.
