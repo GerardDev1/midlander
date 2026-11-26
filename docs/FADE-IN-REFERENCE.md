@@ -88,26 +88,27 @@ These numbers are the layout engine's acceptance targets.
 1. **No space-before at the top of a page.** A Scene Heading or Action that starts a page sits on line 1, without its usual blank lines.
 2. **A Character cue with little room left moves with its dialogue.** In one case the cue would have landed on line 53, leaving room for only one dialogue line before (MORE) on line 54. Fade In moved the whole speech instead, so a split needs **at least 2 dialogue lines** on the first page. The exact minimum is still to confirm.
 3. **Scene Heading keeps with next.** A heading with no room for the first line of the following Action moved to the next page.
-4. **Automatic `(cont'd)`**: "TOM (cont'd)" appears when the same character speaks again after only Action in between. It's lowercase and separated by one space.
+4. **Automatic `(cont'd)`**: "SAM (cont'd)" appears when the same character speaks again after only Action in between. It's lowercase and separated by one space.
 5. **Empty paragraphs take up space.** An empty Action paragraph still takes its blank line plus one empty line.
 6. **Dialogue split across a page** (second sample, a 12-line speech with the cue on line 44):
-   - **Where it splits:** after the last complete **sentence** that fits ("…okay?"). The setting `break_on_sentences="true"` is on, and the split is not forced at the last line that fits. This one went 9 lines on the first page and 3 on the next.
+   - **Where it splits:** after the last complete **sentence** that fits (ending in "?"). The setting `break_on_sentences="true"` is on, and the split is not forced at the last line that fits. This one went 9 lines on the first page and 3 on the next.
    - **(MORE):** on its own line directly below the last dialogue line, at the **Character indent** (3.75"). That line counts within the 54: dialogue ended on line 53, (MORE) took line 54.
-   - **Continued cue:** at the top of the next page, the cue is repeated as `CAROL (O.S.) (cont'd)` (extension kept, then " (cont'd)"). It's printed **one line above the normal first line**: at 61.4 pt, in the top margin. So the continued dialogue still starts on line 1 and the cue doesn't use up a body line.
+   - **Continued cue:** at the top of the next page, the cue is repeated as `ANNA (O.S.) (cont'd)` (extension kept, then " (cont'd)"). It's printed **one line above the normal first line**: at 61.4 pt, in the top margin. So the continued dialogue still starts on line 1 and the cue doesn't use up a body line.
    - The rest of the page then flows normally (Action after the speech gets its usual blank line).
-7. **Action split across a page** (third sample, an 18-line Action paragraph starting on line 43):
-   - It splits at the last **sentence end** that fits. The first part filled lines 43–53 and ended mid-line at "…to the man.". Line 54 was left empty rather than starting the next sentence.
+7. **Line 54 is usable, except by the first part of a split.** Whole paragraphs and whole speeches do go on line 54 (seen twice). But when a paragraph is **split** across pages, its first part ends on line 53 at the latest. For dialogue, line 54 then holds (MORE); for action, it stays empty. Implemented as `splitLeavesLastLine`.
+8. **Action split across a page** (third sample, an 18-line Action paragraph starting on line 43):
+   - It splits at the last **sentence end** that fits. The first part filled lines 43–53 and ended mid-line at a full stop. Line 54 was left empty rather than starting the next sentence.
    - The rest continues on line 1 of the next page (7 lines), with **no (MORE), no CONTINUED** and no blank line above it.
-   - Wrapping treats `man.Cliodhna` (no space) as one word, and keeps runs of double spaces as typed.
-8. **Dual dialogue that isn't adjacent:** MAN and TOM were both marked as dual dialogue, but an Action line ("Dsdsd") sat between them. Fade In **didn't place them side by side**. Each was drawn on its own, in the **left column's** layout:
+   - Wrapping treats `word.Word` (no space after the full stop) as one word, and keeps runs of double spaces as typed.
+9. **Dual dialogue that isn't adjacent:** Two cues were both marked as dual dialogue, but a one-word Action line sat between them. Fade In **didn't place them side by side**. Each was drawn on its own, in the **left column's** layout:
    - cue at 155.3 pt (0.91" in from the margin);
-   - parenthetical at 120.3 pt (0.43", printed with brackets: `(easy)`);
-   - dialogue at the margin (89.5 pt), wrapping at about 23–28 characters ("Is that a phone in your" / "hand?").
+   - parenthetical at 120.3 pt (0.43", printed with brackets: `(softly)`);
+   - dialogue at the margin (89.5 pt), wrapping at about 23–28 characters (a 29-character line broke after 23).
 
    A properly adjacent pair, and the right column's positions, still need a sample. The golden test script will include one.
-9. **Empty paragraphs take a line, as noted in rule 5.** An empty Dialogue under TOM used one line, then the next Action got its usual blank line.
-10. **Parentheses confirmed:** the stored text "easy" printed as `(easy)`.
-11. **Still unknown:** the minimum number of lines on each side of a split; whether a Parenthetical can end a page; positions for a real side-by-side dual dialogue pair.
+10. **Empty paragraphs take a line, as noted in rule 5.** An empty Dialogue under the second cue used one line, then the next Action got its usual blank line.
+11. **Parentheses confirmed:** stored text such as "softly" prints as `(softly)`.
+12. **Still unknown:** the minimum number of lines on each side of a split; whether a Parenthetical can end a page; positions for a real side-by-side dual dialogue pair.
 
 **Scene lengths in eighths** (as reported by Fade In in its FDX export) for the six scenes:
 `1 3/8`, `1/8`, `4/8`, `1/8`, `5/8`, `1 6/8`.
@@ -116,11 +117,11 @@ These numbers are the layout engine's acceptance targets.
 
 ### 2.0 How text is stored
 
-- Text is stored **as typed**: `int. Bathroom cubicle - morning`. Capitals are applied when displayed. Midlander does the same.
-- Character extensions are part of the Character paragraph's text: `carol (O.S.)`.
-- **Parentheticals are stored without their brackets** (`<text>easy</text>`). Fade In adds the ( ) when displaying and printing (confirmed in PDF).
+- Text is stored **as typed**: `int. kitchen - morning`. Capitals are applied when displayed. Midlander does the same.
+- Character extensions are part of the Character paragraph's text: `anna (O.S.)`.
+- **Parentheticals are stored without their brackets** (`<text>softly</text>`). Fade In adds the ( ) when displaying and printing (confirmed in PDF).
 - **Dual dialogue** is stored as `dualdialogue="1"` on the paragraph's `<style>` element of **both** Character cues in the pair. Everything else in those paragraphs is unchanged.
-- Locations are stored without the intro and the final time, but keep other parts: `car - outside parents house`.
+- Locations are stored without the intro and the final time, but keep other parts: `car - outside the school`.
 
 Other page settings stored in the file:
 - break dialogue on sentences;
@@ -301,7 +302,7 @@ A separate, editable sub-document. Paragraphs can carry bookmarks: Title, Subtit
   - **Fountain**:
     - Title page keys `Title`, `Author`, `Draft date` (from the Draft bookmark), `Copyright`, `Contact`; multi-line values are indented.
     - Scene headings and character cues are written in capitals.
-    - Extensions are kept inline: `CAROL (O.S.)`.
+    - Extensions are kept inline: `ANNA (O.S.)`.
     - An empty Action paragraph becomes extra blank lines.
   - **FDX**:
     - `<FinalDraft DocumentType="Script" Version="2">`.

@@ -1,0 +1,22 @@
+{
+  "name": "midlander",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Midlander: a desktop screenwriting application",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "test": "node --test \"packages/*/test/*.test.ts\"",
+    "typecheck": "tsc -p tsconfig.json",
+    "compare": "node tools/compare-layout.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.9.0"
+  }
+}
