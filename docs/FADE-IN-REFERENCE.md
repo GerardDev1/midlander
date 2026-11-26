@@ -106,6 +106,8 @@ These numbers are the layout engine's acceptance targets.
 
 - Text is stored **as typed**: `int. Bathroom cubicle - morning`. Capitals are applied when displayed. Midlander does the same.
 - Character extensions are part of the Character paragraph's text: `carol (O.S.)`.
+- **Parentheticals are stored without their brackets** (`<text>easy</text>`), so Fade In adds the ( ) when displaying. To confirm against a PDF.
+- **Dual dialogue** is stored as `dualdialogue="1"` on the paragraph's `<style>` element of **both** Character cues in the pair. Everything else in those paragraphs is unchanged.
 - Locations are stored without the intro and the final time, but keep other parts: `car - outside parents house`.
 
 Other page settings stored in the file:
